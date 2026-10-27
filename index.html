@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formando Tarot</title>
+<meta name="description" content="Formando Tarot · Enchanted Craft Market · Salema Eco Camp">
+<meta name="theme-color" content="#2a1f3d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232a1f3d'/%3E%3Cpath d='M32 10l5.5 16.5H54l-13.3 9.7 5 16.3L32 42.6 18.3 52.5l5-16.3L10 26.5h16.5z' fill='%23d9b35b'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#f6f1e7; --surface:#fffdf8; --ink:#2a2233; --muted:#6b6175; --line:#e4dccd;
+  --accent:#5b3a8c; --accent-ink:#ffffff; --gold:#9a7424; --chip:#efe7f7; --chip-ink:#4a2f73;
+  --shadow:0 1px 2px rgba(42,34,51,.06),0 4px 14px rgba(42,34,51,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#16111f; --surface:#211a2d; --ink:#f1ebf7; --muted:#b5abc2; --line:#352b45;
+    --accent:#c4a2f5; --accent-ink:#1a1325; --gold:#e0bd6a; --chip:#2e2440; --chip-ink:#dccaf7;
+    --shadow:none;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+a{color:var(--accent)}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 0}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);font-family:Georgia,"Times New Roman",serif;font-size:20px;font-weight:700;letter-spacing:.2px}
+.brand .star{color:var(--gold);font-size:18px}
+.langs{display:flex;gap:4px}
+.langs button{min-width:40px;min-height:36px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;font:600 13px/1 inherit;cursor:pointer}
+.langs button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;padding:0 0 10px}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs a{flex:0 0 auto;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;font-size:13.5px;font-weight:600}
+nav.tabs a[aria-current="page"]{border-color:var(--accent);color:var(--accent)}
+main{padding:20px 0 8px}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;line-height:1.25;margin:0 0 10px}
+h1{font-size:28px}
+h2{font-size:22px}
+h3{font-size:16px;font-family:inherit;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:22px}
+p{margin:0 0 12px}
+.lead{color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);margin:0 0 14px}
+.event dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:0}
+.event dt{color:var(--muted);font-size:14px}
+.event dd{margin:0;font-weight:600}
+.cta{display:grid;gap:10px;margin:16px 0}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:12px 16px;border-radius:14px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:700;border:0;font-size:16px;text-align:center}
+.btn.alt{background:var(--surface);color:var(--accent);border:1.5px solid var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media (min-width:480px){.grid{grid-template-columns:repeat(3,1fr)}}
+.tile{display:flex;flex-direction:column;gap:2px;min-height:84px;padding:12px;border-radius:14px;background:var(--surface);border:1px solid var(--line);color:var(--ink);text-decoration:none;box-shadow:var(--shadow)}
+.tile .num{font-family:Georgia,serif;color:var(--gold);font-weight:700;font-size:15px}
+.tile .name{font-weight:700;font-size:15px;line-height:1.3}
+.badge{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:44px;padding:0 10px;border-radius:12px;background:var(--chip);color:var(--gold);font-family:Georgia,serif;font-weight:700;font-size:18px;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 6px}
+.chip{background:var(--chip);color:var(--chip-ink);padding:4px 10px;border-radius:999px;font-size:14px;font-weight:600}
+ol.q{margin:0;padding-left:22px}
+ol.q li{margin:0 0 8px}
+.pager{display:flex;justify-content:space-between;gap:10px;margin:18px 0 6px}
+.pager a{flex:1;min-height:48px;display:flex;align-items:center;justify-content:center;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;padding:8px}
+.back{display:inline-block;margin:0 0 14px;font-weight:600;text-decoration:none}
+.elements{display:grid;gap:12px}
+.el{display:flex;align-items:center;gap:14px;min-height:84px;padding:14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:var(--ink);box-shadow:var(--shadow)}
+.el svg{flex:0 0 52px;width:52px;height:52px;color:var(--gold)}
+.el .t{font-weight:700;font-size:18px}
+.big-icon{width:84px;height:84px;color:var(--gold);display:block;margin:0 0 8px}
+.msg{font-family:Georgia,serif;font-size:19px;line-height:1.55}
+.more{margin:26px 0 8px}
+.more h3{margin-top:0}
+.links{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.links a{display:flex;align-items:center;justify-content:center;text-align:center;min-height:48px;padding:8px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;font-weight:600;font-size:14px}
+.note{font-size:14px;color:var(--muted)}
+.ph{background:var(--chip);border-radius:6px;padding:0 4px}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:18px 0 28px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="#inicio"><span class="star">✦</span><span>Formando Tarot</span></a>
+      <div class="langs" role="group" aria-label="Idioma / Language">
+        <button type="button" data-lang="es">ES</button>
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="pt">PT</button>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs"></nav>
+  </div>
+</header>
+<main class="wrap" id="app" tabindex="-1"></main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+/* ===== Configuración: cambiar aquí ===== */
+var FORM_URL = ""; /* Enlace del formulario de Google Forms */
+
+/* ===== Textos de la interfaz ===== */
+var UI = {
+  es:{tabs:["Inicio","Arcanos","Juego","Opinión","Nosotros"],
+      homeTitle:"Bienvenida, bienvenido",
+      homeLead:"Este es el espacio de Formando Tarot en el Enchanted Craft Market. Aquí encuentras el significado de tu arcano y el mensaje del juego de los tres elementos.",
+      evWhat:"Evento",evWhen:"Fecha",evWhere:"Lugar",evRead:"Lecturas",evLang:"Idiomas",evProd:"Productos",
+      evDate:"Sábado 31 de octubre de 2026",evPlace:"Salema Eco Camp · Budens, Vila do Bispo",
+      evReading:"Lecturas de tarot de 15 minutos: 10 €, en la carpa",evLangs:"Español, portugués e inglés",
+      evProducts:"Mazos de tarot, bitácoras para colorear y pergaminos",
+      ctaArc:"Los 22 arcanos mayores",ctaGame:"El juego de los tres elementos",
+      arcTitle:"Los 22 arcanos mayores",arcLead:"Elige el arcano de tu bitácora o de tu pergamino para conocer su significado y sus preguntas poderosas.",
+      kw:"Palabras clave",meaning:"Significado",questions:"Preguntas poderosas",prev:"Anterior",next:"Siguiente",backArc:"← Todos los arcanos",
+      gameTitle:"El juego de los tres elementos",gameLead:"¿Qué elemento elegiste? Tócalo para ver su mensaje.",
+      backGame:"← Los tres elementos",yourQ:"Una pregunta para ti",
+      fbTitle:"Tu opinión",fbLead:"Cuéntanos cómo fue tu experiencia. Lleva un minuto y nos ayuda mucho.",fbBtn:"Abrir el formulario",fbSoon:"El formulario estará disponible muy pronto.",
+      aboutTitle:"Acerca de nosotros",
+      moreTitle:"Sigue explorando",goArc:"Los 22 arcanos",goGame:"El juego",goFb:"Dejar mi opinión",goAbout:"Acerca de nosotros",
+      readingCta:"¿Quieres profundizar? Pide una lectura de 15 minutos en la carpa.",
+      foot:"Formando Tarot · Enchanted Craft Market · Salema Eco Camp"},
+  en:{tabs:["Home","Arcana","Game","Feedback","About us"],
+      homeTitle:"Welcome",
+      homeLead:"This is Formando Tarot’s space at the Enchanted Craft Market. Here you’ll find the meaning of your arcanum and the message of the three elements game.",
+      evWhat:"Event",evWhen:"Date",evWhere:"Place",evRead:"Readings",evLang:"Languages",evProd:"Products",
+      evDate:"Saturday, 31 October 2026",evPlace:"Salema Eco Camp · Budens, Vila do Bispo",
+      evReading:"15-minute tarot readings: €10, in the tent",evLangs:"Spanish, Portuguese and English",
+      evProducts:"Tarot decks, colouring journals and scrolls",
+      ctaArc:"The 22 major arcana",ctaGame:"The three elements game",
+      arcTitle:"The 22 major arcana",arcLead:"Choose the arcanum from your journal or your scroll to discover its meaning and its powerful questions.",
+      kw:"Keywords",meaning:"Meaning",questions:"Powerful questions",prev:"Previous",next:"Next",backArc:"← All the arcana",
+      gameTitle:"The three elements game",gameLead:"Which element did you choose? Tap it to see its message.",
+      backGame:"← The three elements",yourQ:"A question for you",
+      fbTitle:"Your feedback",fbLead:"Tell us about your experience. It takes a minute and helps us a lot.",fbBtn:"Open the form",fbSoon:"The form will be available very soon.",
+      aboutTitle:"About us",
+      moreTitle:"Keep exploring",goArc:"The 22 arcana",goGame:"The game",goFb:"Give feedback",goAbout:"About us",
+      readingCta:"Want to go deeper? Ask for a 15-minute reading in the tent.",
+      foot:"Formando Tarot · Enchanted Craft Market · Salema Eco Camp"},
+  pt:{tabs:["Início","Arcanos","Jogo","Opinião","Sobre nós"],
+      homeTitle:"Bem-vinda, bem-vindo",
+      homeLead:"Este é o espaço da Formando Tarot no Enchanted Craft Market. Aqui encontras o significado do teu arcano e a mensagem do jogo dos três elementos.",
+      evWhat:"Evento",evWhen:"Data",evWhere:"Local",evRead:"Leituras",evLang:"Idiomas",evProd:"Produtos",
+      evDate:"Sábado, 31 de outubro de 2026",evPlace:"Salema Eco Camp · Budens, Vila do Bispo",
+      evReading:"Leituras de tarot de 15 minutos: 10 €, na tenda",evLangs:"Espanhol, português e inglês",
+      evProducts:"Baralhos de tarot, diários para colorir e pergaminhos",
+      ctaArc:"Os 22 arcanos maiores",ctaGame:"O jogo dos três elementos",
+      arcTitle:"Os 22 arcanos maiores",arcLead:"Escolhe o arcano do teu diário ou do teu pergaminho para conheceres o seu significado e as suas perguntas poderosas.",
+      kw:"Palavras-chave",meaning:"Significado",questions:"Perguntas poderosas",prev:"Anterior",next:"Seguinte",backArc:"← Todos os arcanos",
+      gameTitle:"O jogo dos três elementos",gameLead:"Que elemento escolheste? Toca nele para veres a sua mensagem.",
+      backGame:"← Os três elementos",yourQ:"Uma pergunta para ti",
+      fbTitle:"A tua opinião",fbLead:"Conta-nos como foi a tua experiência. Leva um minuto e ajuda-nos muito.",fbBtn:"Abrir o formulário",fbSoon:"O formulário estará disponível muito em breve.",
+      aboutTitle:"Sobre nós",
+      moreTitle:"Continua a explorar",goArc:"Os 22 arcanos",goGame:"O jogo",goFb:"Deixar a minha opinião",goAbout:"Sobre nós",
+      readingCta:"Queres aprofundar? Pede uma leitura de 15 minutos na tenda.",
+      foot:"Formando Tarot · Enchanted Craft Market · Salema Eco Camp"}
+};
+
+/* ===== Acerca de nosotros (texto de ejemplo para probar) ===== */
+var ABOUT = {
+  es:{p:["[Texto de ejemplo] Somos [Nombre] y [Nombre], tarotistas. Usamos el tarot como una herramienta para mirar el presente con más claridad y tomar decisiones con más conciencia.",
+         "Ofrecemos lecturas privadas, talleres y eventos."],
+      contact:"Contacto",items:["Instagram: [@usuario]","WhatsApp: [número]","Correo: [correo]"]},
+  en:{p:["[Sample text] We are [Name] and [Name], tarot readers. We use tarot as a tool to look at the present more clearly and make decisions more consciously.",
+         "We offer private readings, workshops and events."],
+      contact:"Contact",items:["Instagram: [@username]","WhatsApp: [number]","Email: [email]"]},
+  pt:{p:["[Texto de exemplo] Somos [Nome] e [Nome], tarólogos. Usamos o tarot como uma ferramenta para olhar o presente com mais clareza e tomar decisões com mais consciência.",
+         "Oferecemos leituras privadas, workshops e eventos."],
+      contact:"Contacto",items:["Instagram: [@utilizador]","WhatsApp: [número]","Email: [email]"]}
+};
+
+/* ===== Juego de los tres elementos (ejemplo para probar) ===== */
+var ELEMENTS = [
+ {id:"piedra",icon:"stone",
+  es:{name:"Piedra",kw:["Raíz","Estabilidad","Paciencia"],msg:"Elegiste la piedra. Tu fuerza está en la constancia: es momento de afirmar los pies en la tierra, construir paso a paso y confiar en lo que permanece.",q:"¿Qué base sólida tienes y no estás valorando?"},
+  en:{name:"Stone",kw:["Roots","Stability","Patience"],msg:"You chose the stone. Your strength lies in constancy: it’s time to plant your feet on the ground, build step by step and trust what endures.",q:"What solid foundation do you have that you’re not valuing?"},
+  pt:{name:"Pedra",kw:["Raiz","Estabilidade","Paciência"],msg:"Escolheste a pedra. A tua força está na constância: é altura de assentar os pés na terra, construir passo a passo e confiar no que permanece.",q:"Que base sólida tens e não estás a valorizar?"}},
+ {id:"concha",icon:"shell",
+  es:{name:"Concha de mar",kw:["Receptividad","Emociones","Protección"],msg:"Elegiste la concha de mar. Guarda el sonido del mar: te invita a escuchar tus emociones, a protegerte con suavidad y a dejarte llevar por las mareas de la vida.",q:"¿Qué emoción está pidiendo ser escuchada?"},
+  en:{name:"Seashell",kw:["Receptivity","Emotions","Protection"],msg:"You chose the seashell. It keeps the sound of the sea: it invites you to listen to your emotions, protect yourself gently and let yourself be carried by life’s tides.",q:"Which emotion is asking to be heard?"},
+  pt:{name:"Concha do mar",kw:["Receptividade","Emoções","Proteção"],msg:"Escolheste a concha do mar. Guarda o som do mar: convida-te a escutar as tuas emoções, a proteger-te com suavidade e a deixar-te levar pelas marés da vida.",q:"Que emoção está a pedir para ser escutada?"}},
+ {id:"llave",icon:"key",
+  es:{name:"Llave",kw:["Oportunidad","Apertura","Respuestas"],msg:"Elegiste la llave. Una puerta está por abrirse: ya tienes lo que necesitas para encontrar una respuesta o aprovechar una oportunidad. Solo falta animarte a usarla.",q:"¿Qué puerta te animarías a abrir?"},
+  en:{name:"Key",kw:["Opportunity","Opening","Answers"],msg:"You chose the key. A door is about to open: you already have what you need to find an answer or seize an opportunity. All that’s left is to dare to use it.",q:"Which door would you dare to open?"},
+  pt:{name:"Chave",kw:["Oportunidade","Abertura","Respostas"],msg:"Escolheste a chave. Uma porta está prestes a abrir-se: já tens o que precisas para encontrar uma resposta ou aproveitar uma oportunidade. Só falta teres coragem para a usar.",q:"Que porta te atreverias a abrir?"}}
+];
+
+/* ===== Los 22 arcanos mayores ===== */
+var ARCANA = [
+ {r:"0",
+  es:{n:"El Loco",kw:["Comienzo","Libertad","Confianza","Salto"],t:"El Loco abre el camino con curiosidad y sin equipaje. Invita a confiar en lo nuevo y a dar el primer paso, aunque no conozcas todo el recorrido.",q:["¿Qué empezarías hoy si no tuvieras miedo a equivocarte?","¿Qué peso podrías soltar para avanzar más liviano?","¿Dónde te está llamando la aventura?"]},
+  en:{n:"The Fool",kw:["Beginnings","Freedom","Trust","Leap"],t:"The Fool sets off with curiosity and no baggage. It invites you to trust what is new and take the first step, even if you can’t see the whole path.",q:["What would you start today if you weren’t afraid of making mistakes?","What weight could you put down to move more lightly?","Where is adventure calling you?"]},
+  pt:{n:"O Louco",kw:["Início","Liberdade","Confiança","Salto"],t:"O Louco abre o caminho com curiosidade e sem bagagem. Convida-te a confiar no que é novo e a dar o primeiro passo, mesmo sem conheceres todo o percurso.",q:["O que começarias hoje se não tivesses medo de errar?","Que peso poderias largar para avançar mais leve?","Onde é que a aventura te está a chamar?"]}},
+ {r:"I",
+  es:{n:"El Mago",kw:["Iniciativa","Talento","Voluntad","Recursos"],t:"El Mago tiene sobre la mesa todo lo que necesita. Te recuerda que ya cuentas con las herramientas para convertir una idea en realidad, si unes intención y acción.",q:["¿Qué talento tuyo estás subestimando?","¿Qué idea está lista para pasar a la acción?","¿Qué recursos tienes hoy al alcance de la mano?"]},
+  en:{n:"The Magician",kw:["Initiative","Talent","Willpower","Resources"],t:"The Magician has everything needed on the table. It reminds you that you already have the tools to turn an idea into reality when intention meets action.",q:["Which of your talents are you underestimating?","Which idea is ready to be put into action?","What resources are within your reach today?"]},
+  pt:{n:"O Mago",kw:["Iniciativa","Talento","Vontade","Recursos"],t:"O Mago tem sobre a mesa tudo o que precisa. Lembra-te de que já tens as ferramentas para transformar uma ideia em realidade, se unires intenção e ação.",q:["Que talento teu estás a subestimar?","Que ideia está pronta para passar à ação?","Que recursos tens hoje ao teu alcance?"]}},
+ {r:"II",
+  es:{n:"La Sacerdotisa",kw:["Intuición","Silencio","Sabiduría interior","Misterio"],t:"La Sacerdotisa guarda el conocimiento que no se dice en voz alta. Te invita a escuchar tu intuición y a darte tiempo antes de decidir.",q:["¿Qué sabes en el fondo, aunque todavía no lo digas?","¿Qué te diría tu intuición si la escucharas en silencio?","¿Qué necesitas observar antes de actuar?"]},
+  en:{n:"The High Priestess",kw:["Intuition","Silence","Inner wisdom","Mystery"],t:"The High Priestess keeps the knowledge that is not spoken aloud. She invites you to listen to your intuition and take your time before deciding.",q:["What do you know deep down, even if you haven’t said it yet?","What would your intuition tell you if you listened in silence?","What do you need to observe before acting?"]},
+  pt:{n:"A Sacerdotisa",kw:["Intuição","Silêncio","Sabedoria interior","Mistério"],t:"A Sacerdotisa guarda o conhecimento que não se diz em voz alta. Convida-te a escutar a tua intuição e a dar-te tempo antes de decidir.",q:["O que sabes no fundo, mesmo que ainda não o digas?","O que te diria a tua intuição se a escutasses em silêncio?","O que precisas de observar antes de agir?"]}},
+ {r:"III",
+  es:{n:"La Emperatriz",kw:["Creatividad","Abundancia","Cuidado","Fertilidad"],t:"La Emperatriz representa la vida que crece cuando se la nutre. Habla de crear, de disfrutar y de cuidar lo que amas, empezando por ti.",q:["¿Qué estás gestando que merece más cuidado?","¿Cómo puedes nutrirte mejor esta semana?","¿Dónde hay abundancia en tu vida que no estás viendo?"]},
+  en:{n:"The Empress",kw:["Creativity","Abundance","Care","Fertility"],t:"The Empress represents life that grows when it is nurtured. She speaks of creating, enjoying and caring for what you love, starting with yourself.",q:["What are you growing that deserves more care?","How can you nourish yourself better this week?","Where is there abundance in your life that you’re not seeing?"]},
+  pt:{n:"A Imperatriz",kw:["Criatividade","Abundância","Cuidado","Fertilidade"],t:"A Imperatriz representa a vida que cresce quando é nutrida. Fala de criar, de desfrutar e de cuidar do que amas, a começar por ti.",q:["O que estás a gerar que merece mais cuidado?","Como podes nutrir-te melhor esta semana?","Onde há abundância na tua vida que não estás a ver?"]}},
+ {r:"IV",
+  es:{n:"El Emperador",kw:["Estructura","Orden","Liderazgo","Límites"],t:"El Emperador construye bases firmes. Te invita a ordenar, a poner límites claros y a asumir la responsabilidad de tus decisiones.",q:["¿Qué área de tu vida pide más orden?","¿Qué límite necesitas poner con claridad?","¿Dónde puedes ejercer tu autoridad con serenidad?"]},
+  en:{n:"The Emperor",kw:["Structure","Order","Leadership","Boundaries"],t:"The Emperor builds solid foundations. He invites you to bring order, set clear boundaries and take responsibility for your decisions.",q:["Which area of your life needs more order?","What boundary do you need to set clearly?","Where can you exercise your authority calmly?"]},
+  pt:{n:"O Imperador",kw:["Estrutura","Ordem","Liderança","Limites"],t:"O Imperador constrói bases firmes. Convida-te a organizar, a estabelecer limites claros e a assumir a responsabilidade pelas tuas decisões.",q:["Que área da tua vida pede mais ordem?","Que limite precisas de estabelecer com clareza?","Onde podes exercer a tua autoridade com serenidade?"]}},
+ {r:"V",
+  es:{n:"El Sumo Sacerdote",kw:["Tradición","Enseñanza","Valores","Guía"],t:"El Sumo Sacerdote es el maestro que transmite un saber. Habla de aprender, de compartir lo que sabes y de los valores que guían tu camino.",q:["¿Qué creencias te sostienen y cuáles ya no te sirven?","¿De quién podrías aprender ahora?","¿Qué sabiduría tuya podrías compartir?"]},
+  en:{n:"The Hierophant",kw:["Tradition","Teaching","Values","Guidance"],t:"The Hierophant is the teacher who passes on knowledge. He speaks of learning, sharing what you know and the values that guide your path.",q:["Which beliefs support you, and which no longer serve you?","Who could you learn from right now?","What wisdom of yours could you share?"]},
+  pt:{n:"O Hierofante",kw:["Tradição","Ensino","Valores","Orientação"],t:"O Hierofante é o mestre que transmite um saber. Fala de aprender, de partilhar o que sabes e dos valores que guiam o teu caminho.",q:["Que crenças te sustentam e quais já não te servem?","Com quem poderias aprender agora?","Que sabedoria tua poderias partilhar?"]}},
+ {r:"VI",
+  es:{n:"Los Enamorados",kw:["Elección","Vínculo","Valores","Unión"],t:"Los Enamorados hablan de elegir con el corazón y con coherencia. Una decisión importante pide estar alineada con lo que de verdad valoras.",q:["¿Qué elección estás postergando?","¿Tu decisión refleja lo que de verdad valoras?","¿Qué vínculo te hace crecer?"]},
+  en:{n:"The Lovers",kw:["Choice","Connection","Values","Union"],t:"The Lovers speak of choosing with your heart and with integrity. An important decision asks to be aligned with what you truly value.",q:["What choice are you putting off?","Does your decision reflect what you truly value?","Which relationship helps you grow?"]},
+  pt:{n:"Os Enamorados",kw:["Escolha","Vínculo","Valores","União"],t:"Os Enamorados falam de escolher com o coração e com coerência. Uma decisão importante pede para estar alinhada com o que realmente valorizas.",q:["Que escolha estás a adiar?","A tua decisão reflete o que realmente valorizas?","Que vínculo te faz crescer?"]}},
+ {r:"VII",
+  es:{n:"El Carro",kw:["Avance","Determinación","Dirección","Logro"],t:"El Carro avanza cuando las fuerzas internas tiran hacia el mismo lado. Te invita a definir un rumbo y a sostenerlo con decisión.",q:["¿Hacia dónde quieres ir realmente?","¿Qué fuerzas internas tiran en direcciones opuestas?","¿Qué paso concreto te acerca a tu meta?"]},
+  en:{n:"The Chariot",kw:["Progress","Determination","Direction","Achievement"],t:"The Chariot moves forward when inner forces pull in the same direction. It invites you to set a course and hold it with determination.",q:["Where do you really want to go?","Which inner forces are pulling in opposite directions?","What concrete step brings you closer to your goal?"]},
+  pt:{n:"O Carro",kw:["Avanço","Determinação","Direção","Conquista"],t:"O Carro avança quando as forças interiores puxam para o mesmo lado. Convida-te a definir um rumo e a mantê-lo com determinação.",q:["Para onde queres realmente ir?","Que forças interiores puxam em direções opostas?","Que passo concreto te aproxima da tua meta?"]}},
+ {r:"VIII",
+  es:{n:"La Fuerza",kw:["Coraje","Paciencia","Compasión","Dominio de sí"],t:"La Fuerza no es dureza: es la calma que domina el impulso. Habla de un coraje amable y de confiar en tu fortaleza interior.",q:["¿Qué emoción necesitas acompañar en lugar de reprimir?","¿Dónde puedes ser firme y amable a la vez?","¿Qué te recuerda tu propia fortaleza?"]},
+  en:{n:"Strength",kw:["Courage","Patience","Compassion","Self-mastery"],t:"Strength is not hardness: it is the calm that masters impulse. It speaks of gentle courage and trusting your inner strength.",q:["Which emotion do you need to accompany rather than suppress?","Where can you be firm and kind at the same time?","What reminds you of your own strength?"]},
+  pt:{n:"A Força",kw:["Coragem","Paciência","Compaixão","Domínio de si"],t:"A Força não é dureza: é a calma que domina o impulso. Fala de uma coragem gentil e de confiar na tua força interior.",q:["Que emoção precisas de acompanhar em vez de reprimir?","Onde podes ser firme e gentil ao mesmo tempo?","O que te lembra a tua própria força?"]}},
+ {r:"IX",
+  es:{n:"El Ermitaño",kw:["Introspección","Búsqueda","Prudencia","Luz interior"],t:"El Ermitaño se aparta para encontrar respuestas con su propia luz. Te invita a hacer una pausa y a escucharte.",q:["¿Qué respuesta solo puedes encontrar en soledad?","¿Qué te estás perdiendo por ir tan rápido?","¿Qué luz interior te guía hoy?"]},
+  en:{n:"The Hermit",kw:["Introspection","Search","Prudence","Inner light"],t:"The Hermit withdraws to find answers by his own light. He invites you to pause and listen to yourself.",q:["What answer can you only find in solitude?","What are you missing by going so fast?","What inner light is guiding you today?"]},
+  pt:{n:"O Eremita",kw:["Introspeção","Busca","Prudência","Luz interior"],t:"O Eremita afasta-se para encontrar respostas com a sua própria luz. Convida-te a fazer uma pausa e a escutar-te.",q:["Que resposta só podes encontrar em solidão?","O que estás a perder por ir tão depressa?","Que luz interior te guia hoje?"]}},
+ {r:"X",
+  es:{n:"La Rueda de la Fortuna",kw:["Ciclos","Cambio","Oportunidad","Destino"],t:"La Rueda gira: lo que sube baja y lo que baja vuelve a subir. Habla de aceptar los ciclos y de aprovechar el momento oportuno.",q:["¿Qué ciclo se está cerrando en tu vida?","¿Qué oportunidad está pasando frente a ti?","¿Cómo puedes fluir con el cambio en lugar de resistirlo?"]},
+  en:{n:"Wheel of Fortune",kw:["Cycles","Change","Opportunity","Destiny"],t:"The Wheel turns: what rises falls, and what falls rises again. It speaks of accepting cycles and seizing the right moment.",q:["Which cycle is closing in your life?","What opportunity is passing in front of you?","How can you flow with change instead of resisting it?"]},
+  pt:{n:"A Roda da Fortuna",kw:["Ciclos","Mudança","Oportunidade","Destino"],t:"A Roda gira: o que sobe desce e o que desce volta a subir. Fala de aceitar os ciclos e de aproveitar o momento certo.",q:["Que ciclo está a fechar-se na tua vida?","Que oportunidade está a passar à tua frente?","Como podes fluir com a mudança em vez de lhe resistir?"]}},
+ {r:"XI",
+  es:{n:"La Justicia",kw:["Equilibrio","Verdad","Responsabilidad","Causa y efecto"],t:"La Justicia pone en la balanza lo que das y lo que recibes. Te invita a ver con claridad, decidir con honestidad y asumir las consecuencias.",q:["¿Qué situación pide una mirada honesta?","¿Dónde hay desequilibrio entre lo que das y lo que recibes?","¿Qué decisión justa estás evitando?"]},
+  en:{n:"Justice",kw:["Balance","Truth","Responsibility","Cause and effect"],t:"Justice weighs what you give and what you receive. She invites you to see clearly, decide honestly and accept the consequences.",q:["Which situation calls for an honest look?","Where is there an imbalance between what you give and what you receive?","What fair decision are you avoiding?"]},
+  pt:{n:"A Justiça",kw:["Equilíbrio","Verdade","Responsabilidade","Causa e efeito"],t:"A Justiça põe na balança o que dás e o que recebes. Convida-te a ver com clareza, a decidir com honestidade e a assumir as consequências.",q:["Que situação pede um olhar honesto?","Onde há desequilíbrio entre o que dás e o que recebes?","Que decisão justa estás a evitar?"]}},
+ {r:"XII",
+  es:{n:"El Colgado",kw:["Pausa","Entrega","Otra perspectiva","Sacrificio"],t:"El Colgado mira el mundo al revés y descubre lo que antes no veía. Habla de soltar el control y de cambiar de punto de vista.",q:["¿Qué verías si miraras esta situación desde otro ángulo?","¿Qué necesitas soltar?","¿Qué aprendizaje trae esta espera?"]},
+  en:{n:"The Hanged Man",kw:["Pause","Surrender","New perspective","Sacrifice"],t:"The Hanged Man sees the world upside down and discovers what he couldn’t see before. He speaks of letting go of control and changing your point of view.",q:["What would you see if you looked at this situation from another angle?","What do you need to let go of?","What lesson does this waiting bring?"]},
+  pt:{n:"O Enforcado",kw:["Pausa","Entrega","Nova perspetiva","Sacrifício"],t:"O Enforcado vê o mundo de pernas para o ar e descobre o que antes não via. Fala de largar o controlo e de mudar de ponto de vista.",q:["O que verias se olhasses para esta situação de outro ângulo?","O que precisas de largar?","Que aprendizagem traz esta espera?"]}},
+ {r:"XIII",
+  es:{n:"La Muerte",kw:["Transformación","Final","Renovación","Desapego"],t:"La Muerte anuncia el fin de una etapa para que nazca otra. No habla de pérdida física: habla de transformación y de dejar ir lo que ya cumplió su ciclo.",q:["¿Qué necesita terminar para que algo nuevo empiece?","¿A qué te aferras por costumbre?","¿Qué versión de ti está naciendo?"]},
+  en:{n:"Death",kw:["Transformation","Ending","Renewal","Letting go"],t:"Death announces the end of one stage so that another can begin. It is not about physical loss: it is about transformation and letting go of what has completed its cycle.",q:["What needs to end so that something new can begin?","What are you holding on to out of habit?","Which version of you is being born?"]},
+  pt:{n:"A Morte",kw:["Transformação","Fim","Renovação","Desapego"],t:"A Morte anuncia o fim de uma etapa para que outra possa nascer. Não fala de perda física: fala de transformação e de deixar ir o que já cumpriu o seu ciclo.",q:["O que precisa de terminar para que algo novo comece?","A que te agarras por hábito?","Que versão de ti está a nascer?"]}},
+ {r:"XIV",
+  es:{n:"La Templanza",kw:["Equilibrio","Moderación","Paciencia","Integración"],t:"La Templanza mezcla con calma lo que parece opuesto. Te invita a buscar el punto medio y a darles tiempo a los procesos.",q:["¿Qué extremos puedes equilibrar?","¿Dónde necesitas más paciencia?","¿Qué partes de ti buscan integrarse?"]},
+  en:{n:"Temperance",kw:["Balance","Moderation","Patience","Integration"],t:"Temperance calmly blends what seems opposite. It invites you to seek the middle ground and give processes time.",q:["Which extremes can you balance?","Where do you need more patience?","Which parts of you are seeking to come together?"]},
+  pt:{n:"A Temperança",kw:["Equilíbrio","Moderação","Paciência","Integração"],t:"A Temperança mistura com calma o que parece oposto. Convida-te a procurar o meio-termo e a dar tempo aos processos.",q:["Que extremos podes equilibrar?","Onde precisas de mais paciência?","Que partes de ti procuram integrar-se?"]}},
+ {r:"XV",
+  es:{n:"El Diablo",kw:["Apego","Deseo","Sombra","Ataduras"],t:"El Diablo muestra las cadenas que nos atan, muchas veces elegidas por nosotros. Habla de reconocer los apegos y la propia sombra para recuperar la libertad.",q:["¿Qué hábito o vínculo te quita libertad?","¿Qué deseo escondes, y por qué?","¿Qué cadena podrías soltar hoy?"]},
+  en:{n:"The Devil",kw:["Attachment","Desire","Shadow","Bonds"],t:"The Devil shows the chains that bind us, often chosen by ourselves. It speaks of recognising attachments and your own shadow to regain your freedom.",q:["Which habit or relationship takes away your freedom?","What desire are you hiding, and why?","Which chain could you let go of today?"]},
+  pt:{n:"O Diabo",kw:["Apego","Desejo","Sombra","Amarras"],t:"O Diabo mostra as correntes que nos prendem, muitas vezes escolhidas por nós. Fala de reconhecer os apegos e a própria sombra para recuperar a liberdade.",q:["Que hábito ou vínculo te tira liberdade?","Que desejo escondes, e porquê?","Que corrente poderias largar hoje?"]}},
+ {r:"XVI",
+  es:{n:"La Torre",kw:["Ruptura","Revelación","Liberación","Cambio súbito"],t:"La Torre derrumba lo que estaba construido sobre bases falsas. Aunque sacuda, despeja el terreno para construir algo más auténtico.",q:["¿Qué estructura de tu vida ya no se sostiene?","¿Qué verdad se está revelando?","¿Qué construirías si empezaras de nuevo?"]},
+  en:{n:"The Tower",kw:["Upheaval","Revelation","Liberation","Sudden change"],t:"The Tower brings down what was built on false foundations. Although it shakes things up, it clears the ground to build something more authentic.",q:["Which structure in your life no longer holds?","What truth is being revealed?","What would you build if you started again?"]},
+  pt:{n:"A Torre",kw:["Rutura","Revelação","Libertação","Mudança súbita"],t:"A Torre derruba o que foi construído sobre bases falsas. Embora abale, limpa o terreno para construir algo mais autêntico.",q:["Que estrutura da tua vida já não se sustenta?","Que verdade está a ser revelada?","O que construirias se começasses de novo?"]}},
+ {r:"XVII",
+  es:{n:"La Estrella",kw:["Esperanza","Inspiración","Sanación","Fe"],t:"La Estrella aparece después de la tormenta. Trae calma, esperanza y la confianza de que el camino tiene sentido.",q:["¿Qué te devuelve la esperanza?","¿Qué sueño merece tu confianza?","¿Cómo puedes compartir tu luz con otros?"]},
+  en:{n:"The Star",kw:["Hope","Inspiration","Healing","Faith"],t:"The Star appears after the storm. It brings calm, hope and the trust that the path has meaning.",q:["What gives you hope again?","Which dream deserves your trust?","How can you share your light with others?"]},
+  pt:{n:"A Estrela",kw:["Esperança","Inspiração","Cura","Fé"],t:"A Estrela aparece depois da tempestade. Traz calma, esperança e a confiança de que o caminho faz sentido.",q:["O que te devolve a esperança?","Que sonho merece a tua confiança?","Como podes partilhar a tua luz com os outros?"]}},
+ {r:"XVIII",
+  es:{n:"La Luna",kw:["Intuición","Sueños","Incertidumbre","Emociones profundas"],t:"La Luna ilumina a medias: muestra el mundo de los sueños, los miedos y la imaginación. Te invita a atravesar la incertidumbre guiándote por tu intuición.",q:["¿Qué miedo está distorsionando lo que ves?","¿Qué te dicen tus sueños últimamente?","¿Qué puedes aceptar aunque no lo entiendas del todo?"]},
+  en:{n:"The Moon",kw:["Intuition","Dreams","Uncertainty","Deep emotions"],t:"The Moon only half lights the way: it shows the world of dreams, fears and imagination. It invites you to cross uncertainty guided by your intuition.",q:["Which fear is distorting what you see?","What have your dreams been telling you lately?","What can you accept even if you don’t fully understand it?"]},
+  pt:{n:"A Lua",kw:["Intuição","Sonhos","Incerteza","Emoções profundas"],t:"A Lua ilumina pela metade: mostra o mundo dos sonhos, dos medos e da imaginação. Convida-te a atravessar a incerteza guiando-te pela tua intuição.",q:["Que medo está a distorcer o que vês?","O que te dizem os teus sonhos ultimamente?","O que podes aceitar mesmo sem o compreender totalmente?"]}},
+ {r:"XIX",
+  es:{n:"El Sol",kw:["Alegría","Claridad","Vitalidad","Éxito"],t:"El Sol ilumina todo con claridad y calidez. Habla de alegría simple, de confianza y de mostrarte tal como eres.",q:["¿Qué te llena de vida?","¿Dónde puedes mostrarte con más autenticidad?","¿Qué logro merece ser celebrado?"]},
+  en:{n:"The Sun",kw:["Joy","Clarity","Vitality","Success"],t:"The Sun lights everything with clarity and warmth. It speaks of simple joy, confidence and showing yourself as you are.",q:["What makes you feel alive?","Where can you show yourself more authentically?","Which achievement deserves to be celebrated?"]},
+  pt:{n:"O Sol",kw:["Alegria","Clareza","Vitalidade","Sucesso"],t:"O Sol ilumina tudo com clareza e calor. Fala de alegria simples, de confiança e de te mostrares tal como és.",q:["O que te enche de vida?","Onde podes mostrar-te com mais autenticidade?","Que conquista merece ser celebrada?"]}},
+ {r:"XX",
+  es:{n:"El Juicio",kw:["Despertar","Llamado","Renacer","Balance"],t:"El Juicio es un llamado a despertar. Te invita a revisar el camino recorrido, a perdonar y a responder a tu verdadera vocación.",q:["¿Qué llamado interior estás escuchando?","¿Qué necesitas perdonar, a otros o a ti?","¿Qué parte de ti está lista para renacer?"]},
+  en:{n:"Judgement",kw:["Awakening","Calling","Rebirth","Reflection"],t:"Judgement is a call to awaken. It invites you to review the road travelled, forgive and answer your true calling.",q:["What inner calling are you hearing?","What do you need to forgive, in others or in yourself?","Which part of you is ready to be reborn?"]},
+  pt:{n:"O Julgamento",kw:["Despertar","Chamamento","Renascimento","Balanço"],t:"O Julgamento é um chamamento para despertar. Convida-te a rever o caminho percorrido, a perdoar e a responder à tua verdadeira vocação.",q:["Que chamamento interior estás a ouvir?","O que precisas de perdoar, aos outros ou a ti?","Que parte de ti está pronta para renascer?"]}},
+ {r:"XXI",
+  es:{n:"El Mundo",kw:["Plenitud","Cierre","Logro","Integración"],t:"El Mundo celebra un ciclo completo. Habla de logro, de integración y de la satisfacción de haber llegado.",q:["¿Qué ciclo estás completando?","¿Qué aprendiste en este camino?","¿Qué nuevo viaje se abre ahora?"]},
+  en:{n:"The World",kw:["Fulfilment","Completion","Achievement","Integration"],t:"The World celebrates a complete cycle. It speaks of achievement, integration and the satisfaction of having arrived.",q:["Which cycle are you completing?","What have you learned on this journey?","What new journey is opening now?"]},
+  pt:{n:"O Mundo",kw:["Plenitude","Conclusão","Conquista","Integração"],t:"O Mundo celebra um ciclo completo. Fala de conquista, de integração e da satisfação de ter chegado.",q:["Que ciclo estás a completar?","O que aprendeste neste caminho?","Que nova viagem se abre agora?"]}}
+];
+
+/* ===== Iconos ===== */
+var ICONS = {
+  stone:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" aria-hidden="true"><path d="M10 40c0-12 9-22 23-22 12 0 21 8 21 19 0 8-7 13-19 13H20c-6 0-10-4-10-10z"/><path d="M24 30c3-3 8-4 12-3" stroke-linecap="round"/></svg>',
+  shell:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M32 52 10 26c6-10 14-14 22-14s16 4 22 14L32 52z"/><path d="M32 52V14M32 52 22 17M32 52 42 17M32 52 14 22M32 52 50 22"/><path d="M26 52h12"/></svg>',
+  key:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="32" r="10"/><circle cx="20" cy="32" r="3"/><path d="M30 32h24M46 32v8M53 32v6"/></svg>'
+};
+
+/* ===== Utilidades ===== */
+var LANGS = ["es","en","pt"];
+function storeGet(k){try{return window.localStorage.getItem(k)}catch(e){return null}}
+function storeSet(k,v){try{window.localStorage.setItem(k,v)}catch(e){}}
+function initialLang(){
+  var m = /[?&]lang=(es|en|pt)/.exec(location.search); if(m) return m[1];
+  var s = storeGet("ft-lang"); if(s && LANGS.indexOf(s) > -1) return s;
+  var n = (navigator.language || "es").toLowerCase();
+  if(n.indexOf("pt") === 0) return "pt";
+  if(n.indexOf("es") === 0) return "es";
+  return "en";
+}
+var lang = initialLang();
+function h(tag, attrs, kids){
+  var e = document.createElement(tag);
+  if(attrs) for(var k in attrs){
+    if(k === "class") e.className = attrs[k];
+    else if(k === "html") e.innerHTML = attrs[k];
+    else if(k === "text") e.textContent = attrs[k];
+    else e.setAttribute(k, attrs[k]);
+  }
+  (kids || []).forEach(function(c){ if(c == null) return; e.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
+  return e;
+}
+function route(){
+  var p = (location.hash || "#inicio").replace(/^#\/?/, "").split("/");
+  return {page: p[0] || "inicio", id: p[1]};
+}
+
+/* ===== Vistas ===== */
+function viewHome(t){
+  var ev = h("div",{class:"card event"},[
+    h("dl",null,[
+      h("dt",{text:t.evWhat}),h("dd",{text:"Enchanted Craft Market"}),
+      h("dt",{text:t.evWhen}),h("dd",{text:t.evDate}),
+      h("dt",{text:t.evWhere}),h("dd",{text:t.evPlace}),
+      h("dt",{text:t.evRead}),h("dd",{text:t.evReading}),
+      h("dt",{text:t.evLang}),h("dd",{text:t.evLangs}),
+      h("dt",{text:t.evProd}),h("dd",{text:t.evProducts})
+    ])
+  ]);
+  return [h("h1",{text:t.homeTitle}), h("p",{class:"lead",text:t.homeLead}), ev,
+    h("div",{class:"cta"},[h("a",{class:"btn",href:"#arcanos",text:t.ctaArc}), h("a",{class:"btn alt",href:"#juego",text:t.ctaGame})])];
+}
+function viewArcana(t){
+  var grid = h("div",{class:"grid"}, ARCANA.map(function(a,i){
+    return h("a",{class:"tile",href:"#arcanos/"+i},[h("span",{class:"num",text:a.r}),h("span",{class:"name",text:a[lang].n})]);
+  }));
+  return [h("h1",{text:t.arcTitle}), h("p",{class:"lead",text:t.arcLead}), grid, more(t,"arcanos")];
+}
+function viewArcanum(t,i){
+  var a = ARCANA[i], d = a[lang];
+  var prev = (i+21)%22, next = (i+1)%22;
+  return [h("a",{class:"back",href:"#arcanos",text:t.backArc}),
+    h("div",{class:"card"},[
+      h("span",{class:"badge",text:a.r}), h("h1",{text:d.n}),
+      h("h3",{text:t.kw}), h("div",{class:"chips"}, d.kw.map(function(k){return h("span",{class:"chip",text:k})})),
+      h("h3",{text:t.meaning}), h("p",{text:d.t}),
+      h("h3",{text:t.questions}), h("ol",{class:"q"}, d.q.map(function(q){return h("li",{text:q})}))
+    ]),
+    h("p",{class:"note",text:t.readingCta}),
+    h("div",{class:"pager"},[h("a",{href:"#arcanos/"+prev,text:"← "+t.prev}), h("a",{href:"#arcanos/"+next,text:t.next+" →"})]),
+    more(t,"arcanos")];
+}
+function viewGame(t){
+  var list = h("div",{class:"elements"}, ELEMENTS.map(function(e){
+    return h("a",{class:"el",href:"#juego/"+e.id},[h("span",{html:ICONS[e.icon]}), h("span",{class:"t",text:e[lang].name})]);
+  }));
+  list.querySelectorAll("span:first-child").forEach(function(s){ var svg = s.firstChild; s.parentNode.replaceChild(svg, s); });
+  return [h("h1",{text:t.gameTitle}), h("p",{class:"lead",text:t.gameLead}), list, more(t,"juego")];
+}
+function viewElement(t,e){
+  var d = e[lang];
+  var icon = h("div",{html:ICONS[e.icon]}); var svg = icon.firstChild; svg.setAttribute("class","big-icon");
+  return [h("a",{class:"back",href:"#juego",text:t.backGame}),
+    h("div",{class:"card"},[svg, h("h1",{text:d.name}),
+      h("div",{class:"chips"}, d.kw.map(function(k){return h("span",{class:"chip",text:k})})),
+      h("p",{class:"msg",text:d.msg}),
+      h("h3",{text:t.yourQ}), h("p",{text:d.q})]),
+    h("p",{class:"note",text:t.readingCta}),
+    more(t,"juego")];
+}
+function viewFeedback(t){
+  var body = FORM_URL ? h("a",{class:"btn",href:FORM_URL,target:"_blank",rel:"noopener",text:t.fbBtn}) : h("p",{class:"note",text:t.fbSoon});
+  return [h("h1",{text:t.fbTitle}), h("p",{class:"lead",text:t.fbLead}), h("div",{class:"cta"},[body]), more(t,"opiniones")];
+}
+function viewAbout(t){
+  var a = ABOUT[lang];
+  return [h("h1",{text:t.aboutTitle}),
+    h("div",{class:"card"},[h("h2",{text:"Formando Tarot"})].concat(a.p.map(function(p){return h("p",{text:p})}))
+      .concat([h("h3",{text:a.contact}), h("ul",null,a.items.map(function(x){return h("li",{text:x})}))])),
+    more(t,"nosotros")];
+}
+function more(t,current){
+  var all = [["arcanos",t.goArc],["juego",t.goGame],["opiniones",t.goFb],["nosotros",t.goAbout]];
+  return h("section",{class:"more"},[h("h3",{text:t.moreTitle}),
+    h("div",{class:"links"}, all.filter(function(x){return x[0] !== current}).map(function(x){return h("a",{href:"#"+x[0],text:x[1]})})
+      .concat([h("a",{href:"#inicio",text:t.tabs[0]})]))]);
+}
+
+/* ===== Render ===== */
+function render(){
+  var t = UI[lang], r = route(), app = document.getElementById("app"), nodes, title = "Formando Tarot";
+  document.documentElement.lang = lang === "pt" ? "pt-PT" : lang;
+  var pages = ["inicio","arcanos","juego","opiniones","nosotros"];
+  var tabs = document.getElementById("tabs"); tabs.innerHTML = "";
+  pages.forEach(function(p,i){ var a = h("a",{href:"#"+p,text:t.tabs[i]}); if(p === r.page) a.setAttribute("aria-current","page"); tabs.appendChild(a); });
+  document.querySelectorAll(".langs button").forEach(function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-lang") === lang ? "true" : "false"); });
+  if(r.page === "arcanos" && r.id !== undefined && /^\d+$/.test(r.id) && +r.id < 22){ nodes = viewArcanum(t,+r.id); title = ARCANA[+r.id][lang].n + " · Formando Tarot"; }
+  else if(r.page === "arcanos"){ nodes = viewArcana(t); title = t.arcTitle + " · Formando Tarot"; }
+  else if(r.page === "juego" && r.id){ var e = ELEMENTS.filter(function(x){return x.id === r.id})[0]; if(e){ nodes = viewElement(t,e); title = e[lang].name + " · Formando Tarot"; } else { nodes = viewGame(t); } }
+  else if(r.page === "juego"){ nodes = viewGame(t); title = t.gameTitle + " · Formando Tarot"; }
+  else if(r.page === "opiniones"){ nodes = viewFeedback(t); title = t.fbTitle + " · Formando Tarot"; }
+  else if(r.page === "nosotros"){ nodes = viewAbout(t); title = t.aboutTitle + " · Formando Tarot"; }
+  else { nodes = viewHome(t); }
+  app.innerHTML = ""; nodes.forEach(function(n){ app.appendChild(n); });
+  document.title = title;
+  document.getElementById("foot").textContent = t.foot;
+}
+document.querySelectorAll(".langs button").forEach(function(b){
+  b.addEventListener("click", function(){ lang = b.getAttribute("data-lang"); storeSet("ft-lang", lang); render(); });
+});
+window.addEventListener("hashchange", function(){ render(); window.scrollTo(0,0); });
+render();
+</script>
+</body>
+</html>
